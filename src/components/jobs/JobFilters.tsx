@@ -21,9 +21,9 @@ const filterGroups: FilterGroup[] = [
     label: 'Experience Level',
     icon: Briefcase,
     options: [
-      { label: 'Entry Level', value: 'entry', count: 2 },
-      { label: 'Mid Level', value: 'mid', count: 3 },
-      { label: 'Senior', value: 'senior', count: 1 },
+      { label: 'Entry Level', value: 'entry', count: 10 },
+      { label: 'Mid Level', value: 'mid', count: 4 },
+      { label: 'Senior', value: 'senior', count: 2 },
       { label: 'Director+', value: 'director', count: 0 },
     ],
   },
@@ -32,9 +32,9 @@ const filterGroups: FilterGroup[] = [
     label: 'Job Type',
     icon: Clock,
     options: [
-      { label: 'Full-time', value: 'fulltime', count: 2 },
-      { label: 'Contract', value: 'contract', count: 2 },
-      { label: 'Remote', value: 'remote', count: 1 },
+      { label: 'Full-time', value: 'fulltime', count: 20 },
+      { label: 'Contract', value: 'contract', count: 10 },
+      { label: 'Remote', value: 'remote', count: 5 },
     ],
   },
   {
@@ -42,9 +42,9 @@ const filterGroups: FilterGroup[] = [
     label: 'Location',
     icon: Globe,
     options: [
-      { label: 'United States', value: 'us', count: 1 },
+      { label: 'United States', value: 'us', count: 10 },
       { label: 'Europe', value: 'eu', count: 4 },
-      { label: 'Asia Pacific', value: 'apac', count: 1 },
+      { label: 'Asia Pacific', value: 'apac', count:7 },
     ],
   },
   {
@@ -52,10 +52,10 @@ const filterGroups: FilterGroup[] = [
     label: 'Skills',
     icon: Code,
     options: [
-      { label: 'JavaScript', value: 'js', count: 1 },
-      { label: 'Python', value: 'python', count: 3 },
-      { label: 'Java', value: 'java', count: 1 },
-      { label: 'Cloud', value: 'cloud', count: 2},
+      { label: 'JavaScript', value: 'js', count: 4 },
+      { label: 'Python', value: 'python', count: 9 },
+      { label: 'Java', value: 'java', count: 4 },
+      { label: 'Cloud', value: 'cloud', count: 5},
     ],
   },
 ];

@@ -47,7 +47,7 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
         Job_Title: data.title,
         Job_Description: data.description,
         Primary_location: [data.location],
-        preferred_locations: [data.location],
+        preferred_locations: [data.preferred_location],
         Experience_level: [data.experience_level],
         Responsibilities: data.responsibilities.split('\n'),
         Minimum_qualifications: data.minimum_qualifications.split('\n'),
