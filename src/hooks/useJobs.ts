@@ -7,18 +7,20 @@ export function useJobs() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    async function fetchJobs() {
-      try {
-        const data = await jobsApi.getJobs();
-        setJobs(data);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch jobs'));
-      } finally {
-        setIsLoading(false);
-      }
+  const fetchJobs = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await jobsApi.getJobs();
+      setJobs(data);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to fetch jobs'));
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchJobs();
   }, []);
 
@@ -34,10 +36,15 @@ export function useJobs() {
     }
   };
 
+  const refreshJobs = () => {
+    fetchJobs();
+  };
+
   return {
     jobs,
     isLoading,
     error,
     searchJobs,
+    refreshJobs,
   };
 }

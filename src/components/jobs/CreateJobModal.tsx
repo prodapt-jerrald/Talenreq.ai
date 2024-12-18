@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
-import { X, Building, MapPin, Briefcase, FileText, Brain, Plus, Sparkles, Globe, Clock } from 'lucide-react';
+import { X, Building, MapPin, Briefcase, FileText, Plus, Sparkles, Globe, Clock } from 'lucide-react';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import AITextField from './AITextField';
+import axios from 'axios';
 
 interface CreateJobModalProps {
   isOpen: boolean;
@@ -39,9 +40,25 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
   const [currentSection, setCurrentSection] = useState(0);
   const { control, register, handleSubmit, formState: { errors } } = useForm();
 
-  const handleFormSubmit = (data: any) => {
-    onSubmit(data);
-    onClose();
+  const handleFormSubmit = async (data: any) => {
+    try {
+      const response = await axios.post('https://gcp-tarmac-844324878551.us-central1.run.app/jobs', {
+        Application_URL: data.application_url,
+        Job_Title: data.title,
+        Job_Description: data.description,
+        Primary_location: [data.location],
+        preferred_locations: [data.location],
+        Experience_level: [data.experience_level],
+        Responsibilities: data.responsibilities.split('\n'),
+        Minimum_qualifications: data.minimum_qualifications.split('\n'),
+        Requisition_ID: data.requisition_id,
+        Company_Name: data.company_display_name,
+      });
+      onSubmit(response.data);
+      onClose();
+    } catch (error) {
+      console.error('Error creating job:', error);
+    }
   };
 
   // Mock AI generation function - replace with actual API call
@@ -52,9 +69,9 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
 
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.95, y: -20 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
+    visible: {
+      opacity: 1,
+      scale: 1,
       y: 0,
       transition: {
         type: "spring",
@@ -66,7 +83,7 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
 
   const overlayVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: {
         duration: 0.2
@@ -106,7 +123,6 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
               variants={modalVariants}
               className="inline-block w-full max-w-3xl my-8 text-left align-middle bg-white rounded-[32px] shadow-2xl overflow-hidden relative"
             >
-              {/* Rest of the modal content remains the same */}
               {/* Header */}
               <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
                 <div className="flex items-center space-x-3">
@@ -159,7 +175,6 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      {/* Form sections remain the same */}
                       {currentSection === 0 && (
                         <>
                           <Input
@@ -295,7 +310,7 @@ export default function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobM
                     >
                       Back
                     </Button>
-                    
+
                     {currentSection < formSections.length - 1 ? (
                       <Button
                         type="button"

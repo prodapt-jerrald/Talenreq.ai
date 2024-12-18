@@ -31,6 +31,7 @@ export default function ProfileSelection() {
   const { updateSessionId } = useSession();
 
   useEffect(() => {
+    console.log("jerrald")
     const fetchJob = async () => {
       if (!jobId) return;
       try {

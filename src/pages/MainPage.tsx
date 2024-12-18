@@ -31,15 +31,13 @@ export default function MainPage() {
   const [filters, setFilters] = useState<Record<string, string[]>>({});
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const { jobs, isLoading, error, searchJobs } = useJobs();
+  const { jobs, isLoading, error, searchJobs, refreshJobs } = useJobs();
   const { handleJobSelect } = useSession();
 
-
-  console.log(jobs);
-
   const handleCreateJob = (data: any) => {
-    console.log('Creating job:', data);
+    console.log('Job created:', data);
     setIsCreateModalOpen(false);
+    refreshJobs(); // Refresh the job list after creating a new job
   };
 
   const handleSearch = (value: string) => {
@@ -50,34 +48,33 @@ export default function MainPage() {
 
   if (isLoading) {
     return (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading jobs...</p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading jobs...</p>
         </div>
+      </div>
     );
   }
 
   if (error) {
     return (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-red-600">Error loading jobs: {error.message}</p>
-            <button
-                onClick={() => window.location.reload()}
-                className="mt-4 text-primary hover:text-primary-dark"
-            >
-              Try again
-            </button>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600">Error loading jobs: {error.message}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 text-primary hover:text-primary-dark"
+          >
+            Try again
+          </button>
         </div>
+      </div>
     );
   }
 
   const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchTerm)
-    // job.company_display_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalJobs = filteredJobs.length;
@@ -93,7 +90,7 @@ export default function MainPage() {
         <div className="max-w-[1400px] mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-                <img src={logo} alt="TalentReq" className="h-16" />
+              <img src={logo} alt="TalentReq" className="h-16" />
             </div>
             <UserProfile />
           </div>
@@ -159,7 +156,10 @@ export default function MainPage() {
         <div className="flex gap-8">
           {/* Filters */}
           <div className="w-72 flex-shrink-0">
-            <div className="bg-white rounded-[32px] p-6 shadow-sm sticky top-8 border border-gray-200/50">
+          <div
+  className="bg-white rounded-[32px] p-6 shadow-sm sticky border border-gray-200/50"
+  style={{ top: '8rem' }}
+>
               <JobFilters onFilterChange={setFilters} />
             </div>
           </div>

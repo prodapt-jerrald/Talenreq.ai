@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send } from 'lucide-react';
 import Button from '../ui/Button';
@@ -21,6 +21,7 @@ export default function ChatWindow() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const { sessionId } = useSession();
+  const welcomeMessageDisplayed = useRef(false);
 
   const addMessage = useCallback((content: string, type: 'ai' | 'user') => {
     const timestamp = Date.now();
@@ -33,12 +34,15 @@ export default function ChatWindow() {
   }, []);
 
   useEffect(() => {
-    // Display welcome messages with delays
-    welcomeMessages.forEach((msg, index) => {
-      setTimeout(() => {
-        addMessage(msg, 'ai');
-      }, index * 1000);
-    });
+    if (!welcomeMessageDisplayed.current) {
+      // Display welcome messages with delays
+      welcomeMessages.forEach((msg, index) => {
+        setTimeout(() => {
+          addMessage(msg, 'ai');
+        }, index * 1000);
+      });
+      welcomeMessageDisplayed.current = true;
+    }
   }, [addMessage]);
 
   const handleSend = async () => {
@@ -57,7 +61,7 @@ export default function ChatWindow() {
     }
 
     try {
-      const response = await fetch('http://104.154.104.170/chat', {
+      const response = await fetch('https://gcp-tarmac-844324878551.us-central1.run.app/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +72,7 @@ export default function ChatWindow() {
           query: input.trim(),
         }),
       });
-      console.log("trigger",sessionId)
+      console.log("trigger", sessionId);
       if (response.ok) {
         const data = await response.json();
         setIsTyping(false);

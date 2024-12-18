@@ -40,7 +40,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://104.154.104.170/login', {
+      const response = await axios.post('https://gcp-tarmac-844324878551.us-central1.run.app/login', {
         email,
         password,
       }, {
@@ -75,7 +75,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
   const register = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://104.154.104.170/register', {
+      const response = await axios.post('https://gcp-tarmac-844324878551.us-central1.run.app/register', {
         email,
         password,
       }, {
@@ -122,7 +122,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     }
   
     try {
-      const response = await fetch(`http://104.154.104.170/jobs/${job.requisition_id}/talents`, {
+      const response = await fetch(`https://gcp-tarmac-844324878551.us-central1.run.app/jobs/${job.requisition_id}/talents`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${accessToken}`,

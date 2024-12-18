@@ -3,7 +3,7 @@ import { transformJobResponse } from './transforms';
 import type { Job } from '../types/job';
 // import { useSession } from '../contexts/SessionContext';
 
-const API_BASE_URL = 'http://34.171.65.195'; // Update with your actual API URL
+const API_BASE_URL = 'https://gcp-tarmac-844324878551.us-central1.run.app'; // Update with your actual API URL
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

@@ -134,8 +134,24 @@ export default function RecommendedTalents({ talents }: RecommendedTalentsProps)
                     {skill}
                   </span>
                 ))}
-                <span style={{display:"flex"}} className="text-xs text-primary font-medium px-2 py-0.5 bg-primary/10 rounded-full">     <span style={{fontSize:10}}>Match Score:</span>
-              <span style={{fontSize:10}}> {talent.match_score}</span></span>
+            <span
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 10,
+    color: "#10B981",
+    backgroundColor: "#DCFCE7",
+    padding: "0.125rem 0.5rem",
+    borderRadius: "9999px"
+  }}
+  className="text-xs font-medium"
+>
+  Match Score:
+
+  <span style={{fontSize:10}}> {talent.match_score}</span>
+</span>
+ 
                     
               </div>
      
